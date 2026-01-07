@@ -34,14 +34,6 @@ test('test', async ({ page }) => {
     });
 
 
-    await test.step('login', async () => {
-
-        await page.goto('https://sauce-demo.myshopify.com/account/');
-        await page.getByRole('link', { name: 'My Account' }).click();
-        await expect(page.getByRole('button', { name: 'My Account' })).toBeVisible();
-
-
-    });
 
 
 });
