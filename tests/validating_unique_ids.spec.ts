@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('detecting duplciated ids, throws an error if duplicated ids are found', async ({ page }) => {
+test('detecting duplciated ids, throws an error if duplicated ids are found', {tag: '@unique-ids'},async ({ page }) => {
   await page.goto('https://sauce-demo.myshopify.com/');
 
   const duplicates = await page.evaluate(() => {

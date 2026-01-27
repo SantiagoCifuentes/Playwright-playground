@@ -8,10 +8,6 @@ test.beforeEach(async ({ page }) => {
 
 test('test', async ({ page }) => {
 
-
-
-
-
     await test.step('validating that cart button doesnt work on the first click', async () => {
 
         //theres a bug in the app in wich the cart button remains reloading  when its clicked. it only works after reloading the page
