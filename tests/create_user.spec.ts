@@ -1,19 +1,17 @@
-import { test } from '@playwright/test';
-import { HomePage } from '../src/pages/HomePage';
-import { LoginPage } from '../src/pages/LoginPage';
+import { test } from '../src/fixtures/TestFixture';
 
-test.beforeEach(async ({ page }) => {
-  const home = new HomePage(page);
-  await home.goToUrl();
+
+test.beforeEach(async ({ homePage }) => {
+  await homePage.goToUrl();
 });
 
-test('register and login user', async ({ page }) => {
-  const home = new HomePage(page);
-  const auth = new LoginPage(page);
+test('register and login user', async ({ page, loginPage, homePage}) => {
+ 
+
 
   await test.step('create user', async () => {
-    await home.goToSignUp();
-    await auth.register(
+    await homePage.goToSignUp();
+    await loginPage.register(
       'Santiago',
       'Perez',
       'santiago.ci9619@gmail.com',
@@ -22,8 +20,8 @@ test('register and login user', async ({ page }) => {
   });
 
   await test.step('login', async () => {
-    await home.goToLogin();
-    await auth.login(
+    await homePage.goToLogin();
+    await loginPage.login(
       'santiago.ci9619@gmail.com',
       '123456'
     );
