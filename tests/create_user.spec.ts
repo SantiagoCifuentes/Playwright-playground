@@ -1,5 +1,6 @@
 
 import { test } from '../src/fixtures/TestFixture';
+import  users  from '../test-data/users.json';
 
 
 test.beforeEach(async ({ homePage }) => {
@@ -10,21 +11,21 @@ test('register and login user', async ({ loginPage, homePage,registerPage}) => {
  
 
 
-  await test.step('create user', async () => {
+  await test.step('register user', async () => {
     await homePage.goToSignUp();
     await registerPage.register(
-      'Santiago',
-      'Perez',
-      'santiago.ci9619@gmail.com',
-      'MiClave12345'
+      users.validUser.firstName,
+      users.validUser.lastName,
+      users.validUser.email,
+      users.validUser.password
     );
   });
 
   await test.step('login', async () => {
     await homePage.goToLogin();
     await loginPage.login(
-      'santiago.ci9619@gmail.com',
-      '123456'
+      users.validUser.email,
+      users.validUser.password
     );
   });
 });
