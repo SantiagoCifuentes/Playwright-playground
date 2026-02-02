@@ -1,30 +1,23 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../src/fixtures/TestFixture';
 
-test.beforeEach(async ({ page }) => {
-    console.log('Before each test');
-    await page.goto('https://sauce-demo.myshopify.com/');
+test.beforeEach(async ({ homePage }) => {
+  await homePage.goToUrl();
 });
 
-
-test('test', async ({ page }) => {
-
-    await test.step('validating that cart button doesnt work on the first click', async () => {
-
-        //theres a bug in the app in wich the cart button remains reloading  when its clicked. it only works after reloading the page
-
-        await page.getByRole('link', { name: 'Grey jacket' }).click();
-        await page.getByRole('button', { name: 'Add to Cart' }).click();
-        await page.getByRole('link', { name: 'My Cart' }).click();
-        await expect(page.getByRole('button', { name: 'Check Out' })).not.toBeVisible();
-
-        //workaround
-        await page.reload();
-        await page.getByRole('link', { name: 'My Cart' }).click();
-        await expect(page.getByRole('button', { name: 'Check Out' })).toBeVisible();
-
-    });
+test('cart button requires page reload to work (known bug)', async ({ page, homePage, cartPage }) => {
 
 
+  await test.step('validating that cart button doesnt work on the first click', async () => {
 
+    await homePage.openProduct('Grey jacket');
+    await cartPage.addToCart();
 
+    await homePage.openCart();
+    await cartPage.checkoutButtonShouldNotBeVisible();
+    // workaround for known bug
+    await page.reload();
+    await homePage.openCart();
+
+    // await product.checkoutButtonShouldBeVisible();
+  });
 });

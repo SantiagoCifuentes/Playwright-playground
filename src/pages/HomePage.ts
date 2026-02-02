@@ -31,5 +31,13 @@ export class HomePage {
         await this.page.getByRole('link', { name: 'Log In' }).click();
     }
 
+    async openProduct(productName: string) {
+        await this.page.getByRole('link', { name: productName }).click();
+    }
+
+    async openCart() {
+        await this.page.getByRole('link', { name: 'My Cart' }).click();
+    }
+
 
 }
