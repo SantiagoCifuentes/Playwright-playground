@@ -1,4 +1,4 @@
-import { test } from '../src/fixtures/TestFixture';
+import { test } from '../../src/fixtures/TestFixture';
 
 test.beforeEach(async ({ homePage }) => {
   await homePage.goToUrl();

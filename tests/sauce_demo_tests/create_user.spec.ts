@@ -1,6 +1,6 @@
 
-import { test } from '../src/fixtures/TestFixture';
-import  users  from '../test-data/users.json';
+import { test } from '../../src/fixtures/TestFixture';
+import  users  from '../../test-data/users.json';
 
 
 test.beforeEach(async ({ homePage }) => {
