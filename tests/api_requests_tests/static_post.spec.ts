@@ -8,7 +8,7 @@ test.use({
 test.describe('POST API Tests', () => {
 
 
-    test('Create a new resource', async ({ request }) => {
+    test('Static post', async ({ request }) => {
         const response = await request.post('/posts', { data: post_api });
         const responseBody = await response.json();
         console.log(responseBody);
