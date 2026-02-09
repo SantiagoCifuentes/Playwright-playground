@@ -1,6 +1,5 @@
-interface Post {
-    userId: string;
-    id: number;
+interface CreatePostsRequestBody {
+  
     title: string;
     completed: boolean;
 }
