@@ -6,7 +6,7 @@ test.use({
     baseURL: "https://jsonplaceholder.typicode.com"
 })
 
-test.describe('POST API Tests', () => {
+test.describe('Get API Tests', () => {
     test('type safety', async ({ request }) => {
 
 
@@ -14,9 +14,9 @@ test.describe('POST API Tests', () => {
         const getResponseBody = await getResponse.json();
         console.log("GET response body after POST:", getResponseBody);
         expect(getResponse.status()).toBe(200);
-        // expect(getResponseBody).toHaveProperty('id', 1);
-        // expect(getResponseBody).toHaveProperty('title');
-        // expect(typeof getResponseBody.id).toBe('number');
+        expect(getResponse.statusText()).toBe('OK');
+        expect(Array.isArray(getResponseBody)).toBeTruthy();
+        expect(getResponseBody.length).toBeGreaterThan(0);
 
     });
 
