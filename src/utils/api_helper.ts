@@ -8,7 +8,7 @@ export async function formatAPIRequest(template: string, values: any[]): Promise
 }
 
 
-export function postRequestBody( title: string, completed: boolean){
+export function requestBody( title: string, completed: boolean){
     const requestBody: CreatePostsRequestBody = {
         title,
         completed

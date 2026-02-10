@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { postRequestBody } from '../../src/utils/api_helper';
+import { requestBody } from '../../src/utils/api_helper';
 
 
 test.use({
@@ -14,8 +14,8 @@ test.describe('POST API Tests', () => {
         const title = faker.lorem.sentence();
 
 
-        const requestBody = await postRequestBody(title, false);
-        const response = await request.post('/posts', { data: requestBody });
+        const postRequestBody = await requestBody(title, false);
+        const response = await request.post('/posts', { data: postRequestBody });
         const responseBody = await response.json();
         console.log("Dynamic POST response body:", responseBody);
 
