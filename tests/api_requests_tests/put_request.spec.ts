@@ -13,6 +13,11 @@ test.describe('Put API Tests', () => {
         const putResponse = await request.put('/posts/1', { data: putRequest });
         const putResponseBody = await putResponse.json();
         console.log("PUT response body:", putResponseBody);
+        expect(putResponse.status()).toBe(200);
+        expect(putResponse.statusText()).toBe('OK');
+        expect(putResponseBody).toHaveProperty('title', putRequest.title);
+        expect(putResponseBody).toHaveProperty('completed', putRequest.completed);
+        expect(typeof putResponseBody.id).toBe('number');
 
     });
 
