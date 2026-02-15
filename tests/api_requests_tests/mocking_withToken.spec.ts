@@ -28,27 +28,36 @@ test('mock with invalid token', async ({ request, context }) => {
     expect(response.status()).toBe(401);
 });
 
-test('mock with valid token', async ({ request, context }) => {
+test('mock with valid token', async ({ request, context, page }) => {
 
-    await context.route('**/auth/me', async route => { // it doesnt have any  expect because we are just mocking the response and not making any assertions in this test
-        await route.fulfill({
+    await page.route('**/auth/me', async route => { // it doesnt have any  expect because we are just mocking the response and not making any assertions in this test
+        await route.fulfill({                           //with context didnt work because we were using request.get and request doesnt intercepet browser request
             status: 200,
             contentType: 'application/json',
             body: JSON.stringify({
                 id: 15,
                 username: 'emilys',
-                
+
             })
         });
     });
 
-    const response = await request.get('https://dummyjson.com/auth/me', {
-        headers: {
-            Authorization: 'Bearer valid-token'
-        }
-    });
+    await page.goto('https://example.com');
 
-    expect(response.status()).toBe(200);
-    const body = await response.json();
-    expect(body.username).toBe('emilys');
+    // const response = await request.get('https://dummyjson.com/auth/me', {
+    //     headers: {
+    //         Authorization: 'Bearer valid-token'
+    //     }
+    // });
+
+
+    const data = await page.evaluate(async () => {
+        const res = await fetch('https://dummyjson.com/auth/me', {
+            headers: {
+                Authorization: 'Bearer valid-token'
+            }
+        });
+        return res.json();
+    }) as { username: string; id: number };// this was because data was throwing an error because it didnt know the type of data we were returning from the page.evaluate function so we had to specify the type of data we were returning from the page.evaluate function
+    expect(data.username).toBe('emilys');
 });
