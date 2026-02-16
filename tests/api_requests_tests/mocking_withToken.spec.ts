@@ -1,6 +1,11 @@
 
 import { test, expect } from '@playwright/test';
 
+//these tests are not really working because request doesnt work with route and route 
+    // is only for page but we are using request.get to make the request so it is not intercepting the request and
+    //  fulfilling the response so we are not getting the mocked response but we are getting the actual response from the server and that is why the test is 
+    // failing 
+
 test('mock with invalid token', async ({ request, context }) => {
 
     await context.route('**/auth/me', async route => {
