@@ -1,11 +1,11 @@
 
 import { test, expect } from '@playwright/test';
-import { access } from 'fs';
+
 
 
 const baseURL = 'https://dummyjson.com';
 
-test.describe('Authentication tests', () => {
+test.describe('Authentication tests @authAPI',  () => {
 
   test(' valid login', async ({ request }) => {
     const response = await request.post(`${baseURL}/auth/login`, {
