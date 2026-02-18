@@ -25,7 +25,7 @@ export default defineConfig({
   reporter: [
     ['line'],
     ['html'],
-    // ['allure-playwright'],
+    ['allure-playwright'],
     ['junit', { outputFile: 'results.xml' }],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
