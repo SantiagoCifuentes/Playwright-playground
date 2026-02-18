@@ -1,0 +1,10 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+allure-results/f7964ee4-6b06-4423-9ced-6395f40a63d4-result.json
+results.xml
