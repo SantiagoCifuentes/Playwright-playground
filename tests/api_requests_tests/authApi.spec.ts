@@ -8,6 +8,7 @@ const baseURL = 'https://dummyjson.com';
 test.describe('Authentication tests @authAPI',  () => {
 
   test(' valid login', async ({ request }) => {
+    console.log('Testing valid login...');
     const response = await request.post(`${baseURL}/auth/login`, {
       data: {
         username: 'emilys',
