@@ -71,7 +71,14 @@ pipeline {
                 alwaysLinkToLastBuild: true,
                 keepAll: true
             ])
-             echo 'Pipeline finished.'
+
+             // Publish Allure (requires Allure Jenkins plugin + Allure configured in Jenkins Global Tools)
+           allure([
+                includeProperties: false,
+                jdk: '',
+                results: [[path: 'allure-results']]
+                ])
+            echo 'Pipeline finished.'
         }
         failure {
             echo 'Tests failed.'
