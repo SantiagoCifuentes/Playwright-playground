@@ -111,6 +111,7 @@ This project includes multiple CI/CD definitions:
 
 - Declarative pipeline with `agent any` and Node tool `NODEJS`
 - Parameter: `AUTHAPI` (boolean). When true, tests run with `--grep @authAPI`
+- Windows-oriented execution (`bat` commands)
 - Test command:
 	- Default: `npx playwright test --project=chromium --project=firefox`
 	- With parameter: adds `--grep @authAPI`
@@ -142,7 +143,7 @@ This project includes multiple CI/CD definitions:
 
 - Triggers:
 	- `workflow_dispatch` (manual)
-	- `push` and `pull_request` on `main` and `master`
+	- `push` and `pull_request` on `main` and `master` (so it is not manual-only)
 - Runner: `ubuntu-latest`
 - Timeout: 60 minutes
 - Steps:
@@ -155,7 +156,7 @@ This project includes multiple CI/CD definitions:
 
 ### Azure DevOps (`azure-devops-pipeline.yml`)
 
-- Triggers: `main` for CI and PR validation
+- Triggers: CI on `main` and PR validation targeting `main`
 - Pool: `Default`
 - Steps:
 	1. Install Node 20.x (`NodeTool@0`)
@@ -164,6 +165,16 @@ This project includes multiple CI/CD definitions:
 	4. Run tests with `npx playwright test --grep authAPI` and `CI=true`
 	5. Publish JUnit results (`PublishTestResults@2`) from `test-results/results.xml`
 	6. Publish `playwright-report` artifact (`PublishPipelineArtifact@1`)
+
+### CI Notes
+
+- Unified JUnit path across Playwright, Jenkins, and Azure DevOps: `test-results/results.xml`
+- GitHub Actions workflows currently upload only `playwright-report/` artifacts (no JUnit/Allure publish steps)
+- Test scope differs by pipeline:
+	- Jenkins default: Chromium + Firefox
+	- GitHub auto: excludes `@unique-ids`
+	- GitHub manual and Azure: auth-focused runs (`authAPI`)
+- PR validation is defined in Azure/GitHub YAML files; Jenkins PR builds depend on Jenkins job configuration (for example, Multibranch/webhook settings), not only on `Jenkinsfile`
 
 ## Notes
 
