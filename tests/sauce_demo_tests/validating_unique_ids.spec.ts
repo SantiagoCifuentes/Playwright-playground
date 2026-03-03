@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 
 
-test('detect duplicated IDs and throw an error when duplicates are found', {tag: '@unique-ids'},async ({ page }) => {
-    test.fail()// this test is expected to fail because the page contains duplicated ids
+test('detect duplicate IDs and throw an error when duplicates are found', { tag: '@unique-ids' }, async ({ page }) => {
+  test.fail(); // This test is expected to fail because the page contains duplicate IDs.
   await page.goto('https://sauce-demo.myshopify.com/');
 
   const duplicates = await page.evaluate(() => {
@@ -11,6 +11,6 @@ test('detect duplicated IDs and throw an error when duplicates are found', {tag:
   });
 
   if (duplicates.length > 0) {
-    throw new Error(`duplicated ids found: ${[...new Set(duplicates)].join(', ')}`);
+    throw new Error(`Duplicate IDs found: ${[...new Set(duplicates)].join(', ')}`);
   }
 });
