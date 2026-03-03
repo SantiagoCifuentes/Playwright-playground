@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 
-test('detecting duplciated ids, throws an error if duplicated ids are found', {tag: '@unique-ids'},async ({ page }) => {
+test('detect duplicated IDs and throw an error when duplicates are found', {tag: '@unique-ids'},async ({ page }) => {
     test.fail()// this test is expected to fail because the page contains duplicated ids
   await page.goto('https://sauce-demo.myshopify.com/');
 

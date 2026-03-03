@@ -3,7 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test tests/sauce_demo_tests",
+    "test:api": "playwright test tests/api_requests_tests",
+    "test:authapi": "playwright test --grep @authAPI",
+    "test:ci": "playwright test --reporter=line,junit,html",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -11,7 +23,13 @@
   "devDependencies": {
     "@playwright/test": "^1.56.1",
     "@types/node": "^24.9.2",
-    "allure-playwright": "^3.4.5"
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "allure-playwright": "^3.4.5",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1"
   },
   "dependencies": {
     "@faker-js/faker": "^10.3.0",

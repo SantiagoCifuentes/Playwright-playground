@@ -1,68 +1,73 @@
-
 import { test, expect } from '@playwright/test';
-
 //these tests are not really working because request doesnt work with route and route 
     // is only for page but we are using request.get to make the request so it is not intercepting the request and
     //  fulfilling the response so we are not getting the mocked response but we are getting the actual response from the server and that is why the test is 
     // failing 
-
-test('mock with invalid token', async ({ request, context }) => {
-
-    await context.route('**/auth/me', async route => {
+test('mock auth endpoint with invalid token', async ({ page }) => {
+    await page.route('**/auth/me', async (route) => {
         const authHeader = route.request().headers()['authorization'];
 
-        if (!authHeader || authHeader !== 'Bearer valid-token') { // Simulate unauthorized response for missing or invalid token
+        if (authHeader !== 'Bearer valid-token') {
             await route.fulfill({
                 status: 401,
                 contentType: 'application/json',
-                body: JSON.stringify({
-                    message: 'Invalid or missing token'
-                })
+                body: JSON.stringify({ message: 'Invalid or missing token' }),
             });
-        } else {
-            await route.continue();
+            return;
         }
+
+        await route.continue();
     });
 
-    const response = await request.get('https://dummyjson.com/auth/me', {
-        headers: {
-            Authorization: 'Bearer invalid-token' // Simulate an invalid token in the request
-        }
+    await page.goto('https://dummyjson.com');
+
+    const result = await page.evaluate(async () => {
+        const response = await fetch('https://dummyjson.com/auth/me', {
+            headers: { Authorization: 'Bearer invalid-token' },
+        });
+
+        const body = await response.json();
+        return { status: response.status, body };
     });
 
-    expect(response.status()).toBe(401);
+    expect(result.status).toBe(401);
+    expect(result.body.message).toBe('Invalid or missing token');
 });
 
-test('mock with valid token', async ({ request, context, page }) => {
+test('mock auth endpoint with valid token', async ({ page }) => {
+    await page.route('**/auth/me', async (route) => {
+        const authHeader = route.request().headers()['authorization'];
 
-    await page.route('**/auth/me', async route => { // it doesnt have any  expect because we are just mocking the response and not making any assertions in this test
-        await route.fulfill({                           //with context didnt work because we were using request.get and request doesnt intercepet browser request
-            status: 200,
+        if (authHeader === 'Bearer valid-token') {
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify({
+                    id: 15,
+                    username: 'emilys',
+                }),
+            });
+            return;
+        }
+
+        await route.fulfill({
+            status: 401,
             contentType: 'application/json',
-            body: JSON.stringify({
-                id: 15,
-                username: 'emilys',
-
-            })
+            body: JSON.stringify({ message: 'Invalid or missing token' }),
         });
     });
 
-    await page.goto('https://example.com');
+    await page.goto('https://dummyjson.com');
 
-    // const response = await request.get('https://dummyjson.com/auth/me', {
-    //     headers: {
-    //         Authorization: 'Bearer valid-token'
-    //     }
-    // });
-
-
-    const data = await page.evaluate(async () => {
-        const res = await fetch('https://dummyjson.com/auth/me', {
-            headers: {
-                Authorization: 'Bearer valid-token'
-            }
+    const result = await page.evaluate(async () => {
+        const response = await fetch('https://dummyjson.com/auth/me', {
+            headers: { Authorization: 'Bearer valid-token' },
         });
-        return res.json();
-    }) as { username: string; id: number };// this was because data was throwing an error because it didnt know the type of data we were returning from the page.evaluate function so we had to specify the type of data we were returning from the page.evaluate function
-    expect(data.username).toBe('emilys');
+
+        const body = await response.json();
+        return { status: response.status, body };
+    });
+
+    expect(result.status).toBe(200);
+    expect(result.body).toMatchObject({ id: 15, username: 'emilys' });
 });

@@ -1,13 +1,11 @@
-
 import { test, expect } from '@playwright/test';
-
-test('mock  get products', async ({ context, request }) => {
 
     //these tests are not really working because request doesnt work with route and route 
     // is only for page but we are using request.get to make the request so it is not intercepting the request and
     //  fulfilling the response so we are not getting the mocked response but we are getting the actual response from the server and that is why the test is 
     // failing 
-    await context.route('**/products/1', async route => {
+test('mock get product details', async ({ page }) => {
+    await page.route('**/products/1', async (route) => {
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
