@@ -35,47 +35,19 @@ test-data/
 
 ## Architecture Diagram
 
-```mermaid
 flowchart TB
-	subgraph Tests
-		UI[UI Tests\n tests/sauce_demo_tests]
-		API[API Tests\n tests/api_requests_tests]
-	end
 
-	subgraph Framework
-		Fixtures[Fixtures\n src/fixtures]
-		Pages[Page Objects\n src/pages]
-		Utils[API Utils\n src/utils]
-		Interfaces[Interfaces\n src/interface]
-	end
+Tests[UI & API Tests]
 
-	subgraph Targets
-		WebApp[Sauce Demo Shop]
-		ApiSvc[DummyJSON / JSONPlaceholder]
-	end
+Framework[Playwright Framework\nFixtures • Page Objects • API Utils]
 
-	subgraph Outputs
-		Html[HTML Report]
-		Allure[Allure Results]
-		Junit[JUnit XML]
-	end
+Targets[Application Under Test\nSauce Demo / Dummy APIs]
 
-	UI --> Fixtures
-	UI --> Pages
-	API --> Fixtures
-	API --> Utils
-	API --> Interfaces
+Reports[Test Reports\nHTML • Allure • JUnit]
 
-	Pages --> WebApp
-	Utils --> ApiSvc
-
-	UI --> Html
-	API --> Html
-	UI --> Allure
-	API --> Allure
-	UI --> Junit
-	API --> Junit
-```
+Tests --> Framework
+Framework --> Targets
+Tests --> Reports
 
 ## Prerequisites
 
