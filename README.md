@@ -6,6 +6,8 @@ Playwright + TypeScript playground for:
 - Multi-browser execution (Chromium, Firefox, WebKit)
 - Test reports with HTML, Allure, and JUnit
 
+The project is designed as a **learning and experimentation space for QA automation practices** including UI testing, API validation, and pipeline execution.
+
 ## Stack
 
 - Playwright Test
@@ -29,6 +31,50 @@ tests/
 test-data/
 	users.json             # user test data for UI tests
 	api-requests/          # static/dynamic API payload templates
+```
+
+## Architecture Diagram
+
+```mermaid
+flowchart TB
+	subgraph Tests
+		UI[UI Tests\n tests/sauce_demo_tests]
+		API[API Tests\n tests/api_requests_tests]
+	end
+
+	subgraph Framework
+		Fixtures[Fixtures\n src/fixtures]
+		Pages[Page Objects\n src/pages]
+		Utils[API Utils\n src/utils]
+		Interfaces[Interfaces\n src/interface]
+	end
+
+	subgraph Targets
+		WebApp[Sauce Demo Shop]
+		ApiSvc[DummyJSON / JSONPlaceholder]
+	end
+
+	subgraph Outputs
+		Html[HTML Report]
+		Allure[Allure Results]
+		Junit[JUnit XML]
+	end
+
+	UI --> Fixtures
+	UI --> Pages
+	API --> Fixtures
+	API --> Utils
+	API --> Interfaces
+
+	Pages --> WebApp
+	Utils --> ApiSvc
+
+	UI --> Html
+	API --> Html
+	UI --> Allure
+	API --> Allure
+	UI --> Junit
+	API --> Junit
 ```
 
 ## Prerequisites
