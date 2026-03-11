@@ -8,6 +8,18 @@ Playwright + TypeScript playground for:
 
 The project is designed as a **learning and experimentation space for QA automation practices** including UI testing, API validation, and pipeline execution.
 
+## Purpose
+
+This repository is a personal playground used to learn and experiment
+with Playwright features such as:
+
+- Locators
+- Fixtures
+- Test retries
+- Parallel execution
+- API testing
+- Page Object Model
+
 ## Stack
 
 - Playwright Test
@@ -33,21 +45,7 @@ test-data/
 	api-requests/          # static/dynamic API payload templates
 ```
 
-## Architecture Diagram
 
-flowchart TB
-
-Tests[UI & API Tests]
-
-Framework[Playwright Framework\nFixtures • Page Objects • API Utils]
-
-Targets[Application Under Test\nSauce Demo / Dummy APIs]
-
-Reports[Test Reports\nHTML • Allure • JUnit]
-
-Tests --> Framework
-Framework --> Targets
-Tests --> Reports
 
 ## Prerequisites
 
